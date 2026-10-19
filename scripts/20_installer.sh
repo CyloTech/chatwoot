@@ -36,7 +36,22 @@ apt autoremove -y
 apt-get clean
 rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
-until [[ $(curl -i -H "Accept: application/json" -H "Content-Type:application/json" -X POST "https://api.cylo.net/v1/apps/installed/${INSTANCE_ID}" | grep '200') ]]
-    do
-    sleep 5
-done
+# --- Appbox installed callback -------------------------------------------------
+# my_init runs this script to completion before it starts any service, and it
+# runs on every boot. The callback is therefore marked pending only on the
+# first boot of this container and sent in the background. The API accepts one
+# installed callback per install or update and rejects the rest (401 once the
+# token has been used or cleared); the old blocking retry loop here kept
+# Chatwoot, PostgreSQL and Redis down after every restart. The helper retries
+# network errors, 408, 429 and 5xx and stops on any other status.
+if [[ ! -f /etc/app_configured ]]; then
+    touch /etc/appbox_callback_pending
+    touch /etc/app_configured
+fi
+
+if [[ -f /etc/appbox_callback_pending ]]; then
+    (
+        /scripts/appbox-installed-callback || true
+        rm -f /etc/appbox_callback_pending
+    ) </dev/null &
+fi

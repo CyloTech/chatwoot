@@ -96,7 +96,8 @@ RUN chmod +x /scripts/install.sh && \
 COPY scripts/postgres/ ${PG_APP_HOME}/
 COPY scripts/ /scripts/
 RUN rm -f /scripts/install.sh && \
-    find /scripts/ -name '*.sh' -exec chmod a+x {} +
+    find /scripts/ -name '*.sh' -exec chmod a+x {} + && \
+    chmod 755 /scripts/appbox-installed-callback
 COPY ./moduser.sh /moduser.sh
 RUN chmod +x /moduser.sh
 
