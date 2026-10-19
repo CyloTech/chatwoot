@@ -1,0 +1,226 @@
+app:
+  display_name: "Chatwoot"
+  publisher: "Chatwoot"
+  description: "Open source customer support platform for live chat, shared inboxes, and customer engagement."
+  short_description: "Opensource customer support desk. An alternative to Intercom, Drift, Freshchat etc."
+  devsite: "https://www.chatwoot.com/"
+  source_repo: "https://github.com/CyloTech/chatwoot"
+  documentation_url: "https://www.chatwoot.com/docs/self-hosted"
+
+image:
+  name: "chatwoot"
+  version: "4.14.2"
+  tag: "4.14.2"
+
+container:
+  user: null
+  group_add: null
+  memory: 6
+  memory_swap: 6
+  memory_reservation: 2
+  cpus: 0
+  init: true
+  cap_add: null
+  cap_drop: null
+  shm_size: null
+  pids_limit: null
+
+networking:
+  subdomain: "chatwoot"
+  is_web_app: true
+  requires_domain: true
+  ssl: true
+  multiple_domains: false
+  tcp_passthrough: false
+
+behavior:
+  app_slots: 1
+  expect_callback: true
+  callback_requires_auth: false
+  restart_text: null
+  can_update: true
+  update_text: null
+  allow_downgrade: false
+  ssl_restart: false
+
+install:
+  pre_description: null
+  post_description: null
+  custom_description: null
+
+ports:
+  tcp:
+    range: null
+    dynamic: null
+  udp:
+    range: null
+    dynamic: null
+  combined:
+    range: null
+    dynamic: null
+
+volumes:
+  - source: "/"
+    destination: "/home/appbox"
+    permissions: "rw"
+    uid: 1000
+
+shared_data: []
+
+env:
+  - key: VIRTUAL_PORT
+    value: "3000"
+    template_type: none
+
+custom_fields:
+  EMAIL:
+    label: "Email"
+    type: email
+    width: 100
+    default_value: null
+    template_type: none
+    validate:
+      - required
+    params: {}
+
+  COMPANY:
+    label: "Company Name"
+    type: alphaNumeric
+    width: 50
+    default_value: null
+    template_type: none
+    validate:
+      - required
+    params: {}
+
+  PASSWORD:
+    label: "Password"
+    type: complexPassword
+    width: 50
+    default_value: null
+    template_type: none
+    validate:
+      - required
+      - { minLength: 8 }
+      - { matches: '^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[!@#$%^&*()_+\-=\[\]{}|"/\\.,`<>:;?~]).+$' }
+    params: {}
+
+  MAILER_SENDER_EMAIL:
+    label: "MAILER_SENDER_EMAIL"
+    type: dynamicText
+    width: 50
+    default_value: null
+    template_type: none
+    validate: []
+    params: {}
+
+  SPACER1:
+    label: "SPACER1"
+    type: spacer
+    width: 50
+    default_value: null
+    template_type: none
+    validate: []
+    params: {}
+
+  SMTP_ADDRESS:
+    label: "SMTP_ADDRESS"
+    type: dynamicText
+    width: 40
+    default_value: null
+    template_type: none
+    validate: []
+    params: {}
+
+  SMTP_PORT:
+    label: "SMTP_PORT"
+    type: number
+    width: 20
+    default_value: null
+    template_type: none
+    validate: []
+    params: {}
+
+  SMTP_DOMAIN:
+    label: "SMTP_DOMAIN"
+    type: dynamicText
+    width: 40
+    default_value: null
+    template_type: none
+    validate: []
+    params: {}
+
+  SMTP_USERNAME:
+    label: "SMTP_USERNAME"
+    type: dynamicText
+    width: 50
+    default_value: null
+    template_type: none
+    validate: []
+    params: {}
+
+  SMTP_PASSWORD:
+    label: "SMTP_PASSWORD"
+    type: password
+    width: 50
+    default_value: null
+    template_type: none
+    validate: []
+    params: {}
+
+  SMTP_AUTHENTICATION:
+    label: "SMTP_AUTHENTICATION"
+    type: selector
+    width: 50
+    default_value: null
+    template_type: none
+    validate: []
+    params:
+      menuItems:
+        plain: "plain"
+        login: "login"
+
+  SMTP_ENABLE_STARTTLS_AUTO:
+    label: "SMTP_ENABLE_STARTTLS_AUTO"
+    type: selector
+    width: 50
+    default_value: null
+    template_type: none
+    validate: []
+    params:
+      menuItems:
+        "true": "true"
+        "false": "false"
+
+  URL:
+    label: "URL"
+    type: externalURL
+    width: 100
+    default_value: "https://%DOMAIN.DOMAIN%"
+    template_type: instance
+    validate: []
+    params: {}
+
+  NAME:
+    label: "Name"
+    type: hidden
+    width: 100
+    default_value: "%USER.FIRSTNAME% %USER.LASTNAME%"
+    template_type: instance
+    validate: []
+    params: {}
+
+  ADMIN_LOGIN_URL:
+    label: "Admin Login URL"
+    type: externalURL
+    width: 100
+    default_value: "https://%DOMAIN.DOMAIN%/super_admin"
+    template_type: instance
+    validate: []
+    params: {}
+
+advanced:
+  devices: []
+  ulimits: []
+  sysctls: []
+  chains: []
