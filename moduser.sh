@@ -13,8 +13,12 @@ if [[ ! -f /etc/profile.d/chatwoot-runtime.sh ]]; then
     exit 1
 fi
 
+# RVM reads variables it never sets (rvm_prefix and others), so it cannot be
+# sourced under set -u.
+set +u
 source /usr/share/rvm/scripts/rvm
 source /etc/profile.d/chatwoot-runtime.sh
+set -u
 
 cd /home/appbox/chatwoot
 
