@@ -11,6 +11,7 @@ image:
   name: "chatwoot"
   version: "4.19.1"
   tag: "4.19.1"
+  digest: "repo.cylo.net/chatwoot@sha256:fd6f0606723a2f1ac069de93259bb86d492aa59cf965404e8a4e688b1220aa48"
 
 container:
   user: null
