@@ -4,7 +4,7 @@ FROM phusion/baseimage:jammy-1.0.4
 ENV PG_VERSION=16 \
     PG_HOME=/home/appbox/config/postgresql \
     RUBY_VERSION=3.4.4 \
-    NODE_VERSION=24.13.0 \
+    NODE_VERSION=24.22.1 \
     PNPM_VERSION=10.2.0
 
 ARG BUNDLE_WITHOUT="development:test"
@@ -39,7 +39,7 @@ ENV DEBIAN_FRONTEND=noninteractive \
     NODE_OPTIONS="--max-old-space-size=4096 --openssl-legacy-provider" \
     GEM_HOME=/usr/share/rvm/gems/ruby-${RUBY_VERSION} \
     GEM_PATH=/usr/share/rvm/gems/ruby-${RUBY_VERSION}:/usr/share/rvm/gems/ruby-${RUBY_VERSION}@global \
-    CHATWOOT_VER=4.14.2
+    CHATWOOT_VER=4.19.1
 
 RUN apt update && \
     apt install -y --no-install-recommends sudo wget curl git software-properties-common jq bsdmainutils ca-certificates gnupg && \
